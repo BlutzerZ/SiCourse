@@ -28,7 +28,7 @@ def register():
         db.session.commit()
         db.session.refresh(db_item)
 
-        return "success register, redirect to login"
+        return redirect(url_for('login'))
 
     return render_template('register.html')
 
@@ -49,7 +49,7 @@ def login():
             else:
                 session['role'] = user.role
                 session['userID'] = user.id
-                return "success login"
+                return redirect(url_for('home'))
         else:
             return "failed to login"
 

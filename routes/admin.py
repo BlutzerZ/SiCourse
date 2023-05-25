@@ -6,18 +6,29 @@ from app import app, db
 def admin_home():
     if session['role'] != "admin":
         return "redirect to login"
-    return "render home for admin"
+    userItem = UserModel.query.get(session['userID'])
+    return render_template("admin-home.html", user=userItem)
     
-@app.route("/admin/course", methods=["GET", "POST"])
+@app.route("/admin/course")
 def admin_course():
+    if session['role'] != "admin":
+        return "redirect to login"
+
+    # return render_template('admin-course.html')
+    return
+
+@app.route("/admin/course/create", methods=["GET", "POST"])
+def admin_course_create():
     if session['role'] != "admin":
         return "redirect to login"
     
     if request.method == "POST":
+        fimg = request.form['fimg']
         ftitle = request.form['title']
         fcontent = request.form['content']
 
         course_item = CourseModel(
+            thumbnail = fimg,
             title = ftitle,
             content = fcontent,
         )
@@ -26,7 +37,10 @@ def admin_course():
         db.session.refresh(course_item)
         return "course success added"
 
-    return "render course for admin"
+    userItem = UserModel.query.get(session['userID'])
+
+    return render_template('admin-course-create.html', user=userItem)
+
 
 @app.route("/admin/course/delete/<int:course_id>", methods=["DELETE"])
 def admin_course_delete(course_id):
