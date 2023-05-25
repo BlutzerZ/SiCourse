@@ -33,7 +33,7 @@
          </div>
 
          <div class="profile">
-            <img src="images/pic-1.jpg" class="image" alt="">
+            <img src="{{ url_for('static',filename='images/user.png') }}" class="image" alt="">
             <h3 class="name">{{ user.username }}</h3>
             <p class="role">{{ user.role }}</p>
             <a href="/edit-profile" class="btn">edit profile</a>
@@ -53,7 +53,7 @@
       </div>
 
       <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
+         <img src="{{ url_for('static',filename='images/user.png') }}" class="image" alt="">
          <h3 class="name">{{ user.username }}</h3>
          <p class="role">{{ user.role }}</p>
          <a href="/edit-profile" class="btn">edit profile</a>
@@ -75,14 +75,18 @@
          {% for course in courses %}
          <div class="box">
             <div class="tutor">
-               <img src="images/pic-2.jpg" alt="">
+               <img src="{{ url_for('static',filename='images/admin.png') }}" alt="">
                <div class="info">
                   <h3>Admin</h3>
-                  <span>{{ course.createAt }}</span>
+                  <span>{{ course.createdAt }}</span>
                </div>
             </div>
             <div class="thumb">
-               <img src="images/thumb-1.png" alt="">
+               {% if course.thumbnail is none %}
+               <img src="" alt="">
+               {% else %}
+               <img src="{{ url_for('static',filename='upload/images/'+course.thumbnail) }}" alt="">
+               {% endif %}
             </div>
             <h3 class="title">{{ course.title }}</h3>
             <a href="/course/{{ course.id }}" class="inline-btn">Baca Materi</a>

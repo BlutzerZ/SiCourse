@@ -33,7 +33,7 @@
          </div>
 
          <div class="profile">
-            <img src="images/pic-1.jpg" class="image" alt="">
+            <img src="{{ url_for('static',filename='images/user.png') }}" class="image" alt="">
             <h3 class="name">{{ user.username }}</h3>
             <p class="role">{{ user.role }}</p>
             <a href="/edit-profile" class="btn">edit profile</a>
@@ -53,7 +53,7 @@
       </div>
 
       <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
+         <img src="{{ url_for('static',filename='images/user.png') }}" class="image" alt="">
          <h3 class="name">{{ user.username }}</h3>
          <p class="role">{{ user.role }}</p>
          <a href="/edit-profile" class="btn">edit profile</a>
@@ -75,7 +75,7 @@
             <img src="{{ url_for('static',filename='images/contact-img.svg') }}" alt="">
          </div>
 
-         <form action="" method="post">
+         <form action="http://wa.me/6281235680943" method="get">
             <h3>get in touch</h3>
             <input type="text" placeholder="enter your name" name="name" required maxlength="50" class="box">
             <input type="email" placeholder="enter your email" name="email" required maxlength="50" class="box">

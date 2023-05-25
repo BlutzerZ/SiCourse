@@ -26,11 +26,6 @@
 
          <a href="home.html" class="logo">Educa.</a>
 
-         <form action="search.html" method="post" class="search-form">
-            <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
-            <button type="submit" class="fas fa-search"></button>
-         </form>
-
          <div class="icons">
             <div id="menu-btn" class="fas fa-bars"></div>
             <div id="search-btn" class="fas fa-search"></div>
@@ -39,7 +34,7 @@
          </div>
 
          <div class="profile">
-            <img src="images/pic-1.jpg" class="image" alt="">
+            <img src="{{ url_for('static',filename='images/user.png') }}" class="image" alt="">
             <h3 class="name">{{ user.username }}</h3>
             <p class="role">{{ user.role }}</p>
             <a href="/edit-profile" class="btn">edit profile</a>
@@ -59,7 +54,7 @@
       </div>
 
       <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
+         <img src="{{ url_for('static',filename='images/user.png') }}" class="image" alt="">
          <h3 class="name">{{ user.username }}</h3>
          <p class="role">{{ user.role }}</p>
          <a href="/edit-profile" class="btn">edit profile</a>
@@ -77,22 +72,24 @@
 
       <div class="video-container">
          <div class="video">
-            <video src="images/vid-1.mp4" controls poster="images/post-1-1.png" id="video"></video>
+            <img src="{{ url_for('static',filename='upload/images/'+course.thumbnail) }}" width="100%" id="video">
          </div>
          <h3 class="title">{{ course.title }}</h3>
          <div class="info">
-            <p class="date"><i class="fas fa-calendar"></i><span>22-10-2022</span></p>
+            <p class="date"><i class="fas fa-calendar"></i><span>{{ course.createdAt }}</span></p>
          </div>
          <div class="tutor">
-            <img src="images/pic-2.jpg" alt="">
+            <img src="{{ url_for('static',filename='images/admin.png') }}" alt="">
             <div>
                <h3>Admin</h3>
                <span>Teacher</span>
             </div>
          </div>
+         {% for content in course.content %}
          <p class="description">
-            {{ course.content }}
+            {{ content }}
          </p>
+         {% endfor %}
       </div>
 
    </section>
@@ -100,9 +97,11 @@
    <section class="comments">
 
       <h1 class="heading">Submit Tugas</h1>
-
       <form action="/course/{{ course.id }}/upload" method="POST" class="add-comment" enctype="multipart/form-data">
          <h3>Upload Tugas</h3>
+         {% if enrollment is not none%}
+         <p class="box">Submited: <a href="">{{ enrollment.filename }}</a></p>
+         {% endif %}
          <input type="file" accept=".pdf,.docx" name="fimg" class="box">
          <br>
          <!-- <textarea name="comment_box" placeholder="enter your comment" required maxlength="1000" cols="30"

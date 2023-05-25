@@ -1,8 +1,6 @@
 import time
 from app import db
 
-
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
     username = db.Column(db.String(100), unique=True)
@@ -26,3 +24,7 @@ class Enrollment(db.Model):
     courseID = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     filename = db.Column(db.String(100))
     completed = db.Column(db.Boolean, default=False)
+
+    studentDetail = db.relationship('User', backref='enrollment', foreign_keys=[studentID])
+
+    courseDetail = db.relationship('Course', backref='enrollment', foreign_keys=[courseID])

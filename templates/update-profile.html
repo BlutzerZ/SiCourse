@@ -32,7 +32,7 @@
          </div>
 
          <div class="profile">
-            <img src="images/pic-1.jpg" class="image" alt="">
+            <img src="{{ url_for('static',filename='images/contact-img.svg') }}" class="image" alt="">
             <h3 class="name">{{ user.username }}</h3>
             <p class="role">{{ user.role }}</p>
             <a href="/edit-profile" class="btn">edit profile</a>
@@ -52,7 +52,7 @@
       </div>
 
       <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
+         <img src="{{ url_for('static',filename='images/user.png') }}" class="image" alt="">
          <h3 class="name">{{ user.username }}</h3>
          <p class="role">{{ user.role }}</p>
          <a href="/edit-profile" class="btn">edit profile</a>

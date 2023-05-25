@@ -3,6 +3,8 @@ from flask import render_template, request, session, redirect, abort, url_for, r
 from app import app, db
 from werkzeug.utils import secure_filename
 import os
+from pytz import timezone
+from datetime import datetime
 
 @app.before_request
 def before_request():
@@ -45,7 +47,7 @@ def login():
             if user.role == 'admin':
                 session['role'] = user.role
                 session['userID'] = user.id
-                return "success login as admin"
+                return redirect(url_for('admin_home'))
             else:
                 session['role'] = user.role
                 session['userID'] = user.id
@@ -55,6 +57,12 @@ def login():
 
     return render_template('login.html')
 
+@app.route("/logout")
+def admin_logout():
+    session.pop('userID', None)
+    session.pop('role', None)
+    return redirect(url_for('login'))
+
 @app.route("/")
 def home():
     if session['role'] != "student":
@@ -63,6 +71,11 @@ def home():
     userItem = UserModel.query.get(session['userID'])
 
     courseItem = CourseModel.query.limit(6).all()
+    for course in courseItem:
+        utc_time = datetime.utcfromtimestamp(course.createdAt)
+        jakarta_time = timezone('Asia/Jakarta').localize(utc_time)
+        print("jakarta time: ", jakarta_time)
+        course.createdAt = jakarta_time.strftime('%d %b %Y')
     return render_template('home.html', courses=courseItem, user=userItem)
 
 @app.route("/edit-profile", methods=["GET", "POST"])
@@ -109,9 +122,12 @@ def show_all_course():
     
     userItem = UserModel.query.get(session['userID'])
     courses = CourseModel.query.all()
+
     for course in courses:
-        print(course.title)
-        print(course.content)
+        utc_time = datetime.utcfromtimestamp(course.createdAt)
+        jakarta_time = timezone('Asia/Jakarta').localize(utc_time)
+        print("jakarta time: ", jakarta_time)
+        course.createdAt = jakarta_time.strftime('%d %b %Y')
     return render_template('courses.html', courses=courses, user=userItem)
 
 @app.route("/course/<int:course_id>")
@@ -129,11 +145,17 @@ def course_content(course_id):
         db.session.commit()
         db.session.refresh(enrollment)
 
+    enrollemnt = EnrollmentModel.query.filter(EnrollmentModel.studentID == session['userID'],EnrollmentModel.courseID == course_id).first()
     userItem = UserModel.query.get(session['userID'])
     courseContent = CourseModel.query.get(course_id)
-    print(courseContent.title)
-    print(courseContent.content)
-    return render_template('course-content.html', course=courseContent, user=userItem)
+    courseContent.content = courseContent.content.split("\n")
+
+    utc_time = datetime.utcfromtimestamp(courseContent.createdAt)
+    jakarta_time = timezone('Asia/Jakarta').localize(utc_time)
+    courseContent.createdAt = jakarta_time.strftime('%d %b %Y')
+
+
+    return render_template('course-content.html', course=courseContent, user=userItem, enrollment=enrollemnt)
 
 @app.route("/course/<int:course_id>/upload", methods=["POST"])
 def course_upload(course_id):

@@ -22,7 +22,7 @@
 
       <section class="flex">
 
-         <a href="home.html" class="logo">Educa.</a>
+         <a href="/" class="logo">Educa.</a>
 
          <div class="icons">
             <div id="menu-btn" class="fas fa-bars"></div>
@@ -32,7 +32,7 @@
          </div>
 
          <div class="profile">
-            <img src="images/pic-1.jpg" class="image" alt="">
+            <img src="{{ url_for('static',filename='images/admin.png') }}" class="image" alt="">
             <h3 class="name">{{ user.username }}</h3>
             <p class="role">{{ user.role }}</p>
             <a href="/edit-profile" class="btn">edit profile</a>
@@ -52,16 +52,17 @@
       </div>
 
       <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
+         <img src="{{ url_for('static',filename='images/admin.png') }}" class="image" alt="">
          <h3 class="name">{{ user.username }}</h3>
          <p class="role">{{ user.role }}</p>
          <a href="/edit-profile" class="btn">edit profile</a>
       </div>
 
       <nav class="navbar">
-         <a href="/"><i class="fas fa-home"></i><span>home</span></a>
-         <a href="/course"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-         <a href="/contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+         <a href="/admin"><i class="fas fa-home"></i><span>home</span></a>
+         <a href="/admin/course/create"><i class="fas fa-graduation-cap"></i><span>create courses</span></a>
+         <a href="/admin/course"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+         <a href="/admin/submission"><i class="fa-solid fa-book" style="color: #8e44ad;"></i><span>submission</span></a>
       </nav>
 
    </div>
@@ -71,14 +72,12 @@
       <form action="" method="post" enctype="multipart/form-data" style="width: 100% !important;">
          <h3>Create Course</h3>
          <p>Thumbnail</p>
-         <input type="file" class="box">
+         <input name="fimg" type="file" class="box">
          <p>TItle</p>
-         <input value="{{ user.username }}" type="text" name="uname" placeholder="new username" maxlength="50"
-            class="box">
+         <input name="title" type="text" name="uname" placeholder="Judul Course" maxlength="50" class="box">
          <p>Content</p>
-         <textarea row=30 value="{{ user.email }}" name="email" placeholder="newemail@gmail.come" maxlength="50"
-            class="box"></textarea>
-         <input type="submit" value="update profile" name="submit" class="btn">
+         <textarea name="content" rows=50 name="email" placeholder="isi kontent.........." class="box"></textarea>
+         <input type="submit" value="Create Course" name="submit" class="btn">
       </form>
 
    </section>
