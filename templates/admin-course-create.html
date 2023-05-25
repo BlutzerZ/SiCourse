@@ -68,7 +68,7 @@
 
    <section class="form-container">
 
-      <form action="" method="post" enctype="multipart/form-data">
+      <form action="" method="post" enctype="multipart/form-data" style="width: 100% !important;">
          <h3>Create Course</h3>
          <p>Thumbnail</p>
          <input type="file" class="box">
@@ -76,8 +76,8 @@
          <input value="{{ user.username }}" type="text" name="uname" placeholder="new username" maxlength="50"
             class="box">
          <p>Content</p>
-         <input value="{{ user.email }}" type="email" name="email" placeholder="newemail@gmail.come" maxlength="50"
-            class="box">
+         <textarea row=30 value="{{ user.email }}" name="email" placeholder="newemail@gmail.come" maxlength="50"
+            class="box"></textarea>
          <input type="submit" value="update profile" name="submit" class="btn">
       </form>
 
