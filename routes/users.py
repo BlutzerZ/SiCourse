@@ -98,7 +98,9 @@ def about():
     if session['role'] != "student":
         return redirect(url_for('login'))
     
-    return render_template('contact.html')
+    user_item = UserModel.query.get(session['userID'])
+
+    return render_template('contact.html', user=user_item)
 
 @app.route("/course")
 def show_all_course():
