@@ -53,7 +53,7 @@ def login():
                 session['userID'] = user.id
                 return redirect(url_for('home'))
         else:
-            return "failed to login"
+            return redirect(url_for('login'))
 
     return render_template('login.html')
 
